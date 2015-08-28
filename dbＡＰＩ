@@ -1,0 +1,75 @@
+//使わなくなりましたが、一応アップロードしておきます。
+    <?php
+     
+            //session_start();
+           
+            //database setting
+            ini_set( 'display_errors', 1 );
+     
+            //$con = mysql_connect('127.0.0.1', 'root', 'test');
+            $con = mysql_connect('127.0.0.1', 'root', 'test');
+     
+     
+            $result = mysql_select_db('test', $con);
+     
+            $result = mysql_query('SET NAMES utf8', $con);
+     
+     
+     
+           
+     
+    switch ($_SESSION["queryType"]) {
+            case 'select':
+            $result = mysql_query('SELECT * FROM '.$_SESSION["tableName"], $con);//query execute
+                    for($i=0;true;$i++)//select
+                    {
+                           
+                            $data = mysql_fetch_array($result);
+                            //print('SELECT * FROM '.$_SESSION["tableName"]);
+                            //break;
+                            /*
+                            print "<P>".$data['id']."</P>";
+                            print "<P>".$data['store']."</P>";
+                            print "<P>".$data['Prefecture']."</P>";
+                            print "<P>".$data['Prefectures']."</P>";
+                            print "<P>".$data['Address']."</P>";
+                            break;*/
+     
+                            if(!$data)
+                            {
+                                    $_SESSION["count"]=$i;
+                                    break;
+                            }
+                            //echo '<p>' . $data['shopName'] . ':' . $data['shopAddress'] . ':'. "</p>\n";
+                            if($_SESSION["tableName"]=="stores")
+                            {       
+                   
+                                    $_SESSION["store".$i] = $data['store'];
+                                    $_SESSION["Prefecture".$i] = $data['Prefecture'];
+                                    $_SESSION["Prefectures".$i] = $data['Prefectures'];
+                                    $_SESSION["Address".$i] = $data['Address'];
+                            }
+                            elseif($_SESSION["tableName"]=="goods")
+                            {
+                                    $_SESSION["shopName".$i] = $data['shopName'];
+                                    $_SESSION["shopAddress".$i] = $data['shopAddress'];
+                            }
+                    }
+                    break;
+     
+            case 'insert' :
+     
+                    break;
+     
+            default:
+                    # code...
+                    break;
+    }
+     
+     
+           
+     
+           
+     
+     
+    ?>
